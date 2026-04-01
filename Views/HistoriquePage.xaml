@@ -1,0 +1,28 @@
+<Page x:Class="GantsPlace.Views.HistoriquePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="{StaticResource BgPrimaryBrush}" Title="Historique">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{StaticResource BgDeepBrush}"
+                BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush_}" Padding="40,24">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Mes réservations" FontFamily="{StaticResource AppFont}"
+                           FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                <Border x:Name="BadgeCount" Background="#142045" CornerRadius="12" Padding="10,4" Margin="14,0,0,0" VerticalAlignment="Center">
+                    <TextBlock x:Name="TxtCount" FontFamily="{StaticResource AppFont}" FontSize="12" Foreground="{StaticResource AccentBrush}"/>
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <!-- Contenu -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="40,28,40,40">
+            <StackPanel x:Name="ContenuPanel"/>
+        </ScrollViewer>
+    </Grid>
+</Page>

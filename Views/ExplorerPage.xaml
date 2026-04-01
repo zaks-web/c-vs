@@ -1,0 +1,67 @@
+<Page x:Class="GantsPlace.Views.ExplorerPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="{StaticResource BgPrimaryBrush}" Title="Explorer">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- SIDEBAR FILTRES -->
+        <Border Grid.Column="0" Background="{StaticResource BgDeepBrush}"
+                BorderThickness="0,0,1,0" BorderBrush="{StaticResource BorderBrush_}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="20,28,20,20">
+                    <TextBlock Text="Filtres" FontFamily="{StaticResource AppFont}"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,24"/>
+
+                    <!-- Type -->
+                    <TextBlock Text="TYPE DE SALLE" FontFamily="{StaticResource AppFont}"
+                               FontSize="10" FontWeight="Bold"
+                               Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,10"/>
+                    <StackPanel x:Name="FiltreTypePanel" Margin="0,0,0,28"/>
+
+                    <!-- Capacité -->
+                    <TextBlock Text="CAPACITÉ" FontFamily="{StaticResource AppFont}"
+                               FontSize="10" FontWeight="Bold"
+                               Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,10"/>
+                    <StackPanel x:Name="FiltreCapacitePanel" Margin="0,0,0,28"/>
+
+                    <!-- Reset -->
+                    <Button Content="Réinitialiser les filtres" Style="{StaticResource SecondaryButtonStyle}"
+                            HorizontalAlignment="Stretch" Click="BtnReset_Click"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- LISTE SALLES -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0" Background="{StaticResource BgDeepBrush}"
+                    BorderThickness="0,0,0,1" BorderBrush="{StaticResource BorderBrush_}" Padding="28,18">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Toutes les salles" FontFamily="{StaticResource AppFont}"
+                               FontSize="20" FontWeight="SemiBold"
+                               Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                    <Border x:Name="BadgeCount" Background="#142045" CornerRadius="12"
+                            Padding="10,4" Margin="12,0,0,0" VerticalAlignment="Center">
+                        <TextBlock x:Name="TxtCount" FontFamily="{StaticResource AppFont}"
+                                   FontSize="12" Foreground="{StaticResource AccentBrush}"/>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Grille salles -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="28,24,28,40">
+                <WrapPanel x:Name="SallesPanel"/>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>
