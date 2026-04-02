@@ -8,6 +8,9 @@ using System.Windows.Media;
 using GantsPlace.Models;
 using GantsPlace.Services;
 using Microsoft.Win32;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Data;
 
 namespace GantsPlace.Views
 {
@@ -21,6 +24,7 @@ namespace GantsPlace.Views
         public string Statut { get; set; } = "";
         public string Description { get; set; } = "";
 
+        public bool EstAnnulable => Statut == "Confirmée";
         public bool EstConfirmee => Statut == "Confirmée";
 
         public Brush StatutBackground => Statut == "Confirmée"
@@ -51,8 +55,8 @@ namespace GantsPlace.Views
 
             ListEquipements.ItemsSource = _equipements;
 
-            if (CmbFiltreStatut != null)
-                CmbFiltreStatut.SelectedIndex = 0;
+            // if (CmbFiltreStatut != null)
+                //     CmbFiltreStatut.SelectedIndex = 0;
 
             ChargerSalles();
             ChargerToutesReservations();
@@ -121,7 +125,7 @@ namespace GantsPlace.Views
 
         private void BtnAjouterEquipement_Click(object sender, RoutedEventArgs e)
         {
-            var nom = TxtNouvelEquipement?.Text?.Trim();
+            var nom = TxtNouvelEquipement?.Text?.Trim() ?? "";
             if (string.IsNullOrEmpty(nom)) return;
 
             if (!_equipements.Contains(nom))
@@ -279,11 +283,11 @@ namespace GantsPlace.Views
             AppliquerFiltreReservations();
         }
 
-        private void CmbFiltreStatut_Changed(object sender, SelectionChangedEventArgs e)
-        {
-            if (!IsLoaded) return;
-            AppliquerFiltreReservations();
-        }
+        // private void CmbFiltreStatut_Changed(object sender, SelectionChangedEventArgs e)
+        // {
+        //     if (!IsLoaded) return;
+        //     AppliquerFiltreReservations();
+        // }
 
         private void BtnAnnulerReservation_Click(object sender, RoutedEventArgs e)
         {

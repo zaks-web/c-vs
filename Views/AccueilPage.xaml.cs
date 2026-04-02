@@ -10,6 +10,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 using GantsPlace.Models;
 using GantsPlace.Services;
+using System.Collections.Generic;
 
 namespace GantsPlace.Views
 {
@@ -22,7 +23,16 @@ namespace GantsPlace.Views
         {
             InitializeComponent();
             _main = main;
-            Loaded += (_, _) => AfficherSalles(DataService.Salles.Take(12).ToList());
+            Loaded += (_, _) => AfficherSalles(GetFeaturedSalles());
+        }
+
+        private List<Salle> GetFeaturedSalles()
+        {
+            var amphi = GetRandomSalles(DataService.Salles.Where(s => s.TypeSalle == "Amphithéâtre"), 2);
+            var cours = GetRandomSalles(DataService.Salles.Where(s => s.TypeSalle == "Salle de cours"), 4);
+            var reunion = GetRandomSalles(DataService.Salles.Where(s => s.TypeSalle == "Salle de réunion"), 2);
+            
+            return amphi.Concat(cours).Concat(reunion).ToList();
         }
 
         private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
@@ -177,5 +187,21 @@ namespace GantsPlace.Views
             "Salle de cours" => "#1AAD5A",
             _ => "#7B40C8"
         };
+
+        // Extension method for random shuffle
+        private static List<Salle> GetRandomSalles(IEnumerable<Salle> all, int count)
+        {
+            var list = all.Take(count).ToList();
+            var random = new Random();
+            int n = list.Count;
+            while (n > 1)
+            {
+                int k = random.Next(n--);
+                var temp = list[n];
+                list[n] = list[k];
+                list[k] = temp;
+            }
+            return list;
+        }
     }
 }

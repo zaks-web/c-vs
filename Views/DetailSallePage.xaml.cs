@@ -26,9 +26,15 @@ namespace GantsPlace.Views
             if (brush != null) 
             {
                 ImgBorder.Background = brush;
+                ImgPlaceholder.Visibility = Visibility.Collapsed;
                 ImgIcon.Visibility = Visibility.Collapsed;
             }
-            else ImgIcon.Text = _salle.TypeSalle == "Amphithéâtre" ? "🏛️" : _salle.TypeSalle == "Salle de cours" ? "📚" : "🤝";
+            else 
+            {
+                ImgPlaceholder.Visibility = Visibility.Visible;
+                ImgIcon.Text = _salle.TypeSalle == "Amphithéâtre" ? "🏛️" : _salle.TypeSalle == "Salle de cours" ? "📚" : "🤝";
+                ImgIcon.Visibility = Visibility.Visible;
+            }
 
             // Infos
             TxtNom.Text = _salle.Nom;

@@ -78,7 +78,7 @@ namespace GantsPlace
                 PanelUser.Visibility    = Visibility.Visible;
                 
                 // Admin button only for gestionnaire
-                if (Session.UtilisateurConnecte.Email == "gestion@gmail.com")
+                if (!string.IsNullOrEmpty(Session.UtilisateurConnecte?.Email) && Session.UtilisateurConnecte.Email == "gestion@gmail.com")
                     BtnAdmin.Visibility = Visibility.Visible;
                 else
                     BtnAdmin.Visibility = Visibility.Collapsed;
