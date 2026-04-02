@@ -27,6 +27,9 @@ namespace GantsPlace.Views
 
         private void BuildFiltres()
         {
+            FiltreTypePanel.Children.Clear();
+            FiltreCapacitePanel.Children.Clear();
+
             // Types
             var types = new[] { "Tous", "Salle de réunion", "Salle de cours", "Amphithéâtre" };
             foreach (var t in types)

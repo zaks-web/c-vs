@@ -31,16 +31,12 @@
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40">
                 <!-- Logo -->
                 <StackPanel HorizontalAlignment="Center" Margin="0,60,0,0">
-                    <Border Background="{StaticResource AccentBrush}" CornerRadius="20"
-                            Width="72" Height="72" HorizontalAlignment="Center" Margin="0,0,0,20">
-                        <Border.Effect>
-                            <DropShadowEffect Color="#4F8EF7" ShadowDepth="0" BlurRadius="30" Opacity="0.6"/>
-                        </Border.Effect>
-                        <TextBlock Text="G" FontSize="38" FontWeight="Bold" Foreground="White"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   FontFamily="{StaticResource AppFont}"/>
-                    </Border>
-                    <TextBlock Text="GANDS PLACE" FontFamily="{StaticResource AppFont}"
+                            <Image Source="/Images/logo.png" Width="200" Height="300" Stretch="Uniform">
+                                <Image.Effect>
+                                    <DropShadowEffect Color="#4F8EF7" ShadowDepth="0" BlurRadius="30" Opacity="0.6"/>
+                                </Image.Effect>
+                            </Image>
+                    <TextBlock Text="GANDS RESERVATION" FontFamily="{StaticResource AppFont}"
                                FontSize="42" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"
                                HorizontalAlignment="Center" />
                     <TextBlock Text="Réservation de salles à Lomé, Togo"
@@ -55,7 +51,7 @@
 
                 <!-- Équipe -->
                 <TextBlock Text="Notre équipe" FontFamily="{StaticResource AppFont}"
-                           FontSize="14" Foreground="{StaticResource TextSecondaryBrush}"
+                           FontSize="17" Foreground="{StaticResource TextSecondaryBrush}"
                            HorizontalAlignment="Center" Margin="0,0,0,24"/>
 
                 <StackPanel x:Name="MembresPanel" Orientation="Horizontal"

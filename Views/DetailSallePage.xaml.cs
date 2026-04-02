@@ -23,7 +23,11 @@ namespace GantsPlace.Views
         {
             // Image
             var brush = _salle.ImagePath != null ? ImageHelper.LoadImageBrush(_salle.ImagePath) : null;
-            if (brush != null) ImgBorder.Background = brush;
+            if (brush != null) 
+            {
+                ImgBorder.Background = brush;
+                ImgIcon.Visibility = Visibility.Collapsed;
+            }
             else ImgIcon.Text = _salle.TypeSalle == "Amphithéâtre" ? "🏛️" : _salle.TypeSalle == "Salle de cours" ? "📚" : "🤝";
 
             // Infos

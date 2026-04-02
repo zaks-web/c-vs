@@ -18,10 +18,13 @@
             </Border.Effect>
             <StackPanel Margin="40">
                 <!-- En-tête -->
-                <Border Background="{StaticResource AccentBrush}" CornerRadius="12" Width="52" Height="52" HorizontalAlignment="Center" Margin="0,0,0,20">
-                    <Border.Effect><DropShadowEffect Color="#4F8EF7" ShadowDepth="0" BlurRadius="20" Opacity="0.5"/></Border.Effect>
-                    <TextBlock Text="🔑" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
+                
+                      <Image Source="/Images/logo.png" Width="200" Height="200" Stretch="Uniform">
+                                <Image.Effect>
+                                    <DropShadowEffect Color="#4F8EF7" ShadowDepth="0" BlurRadius="30" Opacity="0.6"/>
+                                </Image.Effect>
+                            </Image>
+                
                 <TextBlock Text="Connexion" FontFamily="{StaticResource AppFont}" FontSize="26" FontWeight="Bold"
                            Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,6"/>
                 <TextBlock Text="Accédez à votre espace de réservation"
@@ -51,7 +54,7 @@
                     <TextBlock Text="Pas encore de compte ? " FontFamily="{StaticResource AppFont}"
                                FontSize="13" Foreground="{StaticResource TextSecondaryBrush}"/>
                     <Button x:Name="BtnVersInscription" Content="S'inscrire"
-                            Background="Transparent" BorderThickness="0" Cursor="Cursors.Hand"
+                            Background="Transparent" BorderThickness="0" Cursor="Hand"
                             Foreground="{StaticResource AccentBrush}" FontFamily="{StaticResource AppFont}"
                             FontSize="13" Padding="0" Click="BtnVersInscription_Click"/>
                 </StackPanel>

@@ -87,7 +87,7 @@ namespace GantsPlace.Views
                     Style = (Style)Application.Current.FindResource("DangerButtonStyle"),
                     Tag = r
                 };
-                btnAnnuler.Click += (s, e) => {
+ btnAnnuler.Click += (s, e) => {
                     if (MessageBox.Show($"Annuler la réservation de {r.SalleNom} ?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     { DataService.AnnulerReservation(r); Charger(); }
                 };

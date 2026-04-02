@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using GantsPlace.Services;
 
@@ -8,8 +9,21 @@ namespace GantsPlace
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            // Initialise la BDD (création + données si première fois) puis charge les salles
-            DataService.Init();
+
+            AppDomain.CurrentDomain.UnhandledException += (s, args) =>
+            {
+                MessageBox.Show($"Erreur fatale :\n{args.ExceptionObject}",
+                                "Crash", MessageBoxButton.OK, MessageBoxImage.Error);
+            };
+
+            DispatcherUnhandledException += (s, args) =>
+            {
+                MessageBox.Show($"Erreur :\n{args.Exception.Message}\n\n{args.Exception.StackTrace}",
+                                "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                args.Handled = true;
+            };
+
+            DataService.LoadSalles();
         }
     }
 }

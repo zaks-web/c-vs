@@ -23,7 +23,15 @@ namespace GantsPlace.Views
             if (mdp != mdp2) { ShowMsg("Les mots de passe ne correspondent pas.", false); return; }
 
             if (DataService.Inscrire(nom, email, mdp))
-            { ShowMsg($"Bienvenue {nom} ! Votre compte a été créé. Vous pouvez vous connecter.", true); }
+            {
+                // Auto-login after inscription
+                if (DataService.Authentifier(email, mdp))
+                {
+                    ShowMsg($"Bienvenue {nom} ! Connecté automatiquement.", true);
+                    _main.ShowMainApp();
+                }
+                else ShowMsg("Compte créé mais erreur connexion.", false);
+            }
             else ShowMsg("Cet email est déjà utilisé.", false);
         }
 

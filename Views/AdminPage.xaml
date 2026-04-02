@@ -1,0 +1,546 @@
+<Page x:Class="GantsPlace.Views.AdminPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="{StaticResource BgDeepBrush}" Title="Administration">
+
+    <Page.Resources>
+        <!-- Style onglet inactif -->
+        <Style x:Key="TabBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Style onglet actif -->
+        <Style x:Key="TabBtnActiveStyle" TargetType="Button" BasedOn="{StaticResource TabBtnStyle}">
+            <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+        </Style>
+        <!-- Style ligne tableau -->
+        <Style x:Key="TableRowStyle" TargetType="Border">
+            <Setter Property="Background" Value="#111520"/>
+            <Setter Property="BorderBrush" Value="#1E2640"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding" Value="16,12"/>
+        </Style>
+        <!-- Style champ texte admin -->
+        <Style x:Key="AdminInputStyle" TargetType="TextBox" BasedOn="{StaticResource InputFieldStyle}"/>
+        <!-- Bouton danger -->
+        <Style x:Key="DangerButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#3D0F0F"/>
+            <Setter Property="Foreground" Value="{StaticResource DangerBrush}"/>
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource DangerBrush}"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Bouton succès -->
+        <Style x:Key="SuccessButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#0D2E1A"/>
+            <Setter Property="Foreground" Value="#4ADE80"/>
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#4ADE80"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- ══ EN-TÊTE ══ -->
+        <Border Grid.Row="0" Background="#0D1117" BorderBrush="#1E2640"
+                BorderThickness="0,0,0,1" Padding="40,24">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Border Background="{StaticResource AccentBrush}" CornerRadius="10"
+                        Width="42" Height="42" Margin="0,0,14,0">
+                    <Border.Effect>
+                        <DropShadowEffect Color="#4F8EF7" ShadowDepth="0" BlurRadius="16" Opacity="0.6"/>
+                    </Border.Effect>
+                    <TextBlock Text="⚙" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <StackPanel>
+                    <TextBlock Text="Panneau d'administration" FontFamily="{StaticResource AppFont}"
+                               FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                    <TextBlock Text="Gestion des salles, équipements et réservations"
+                               FontFamily="{StaticResource AppFont}" FontSize="12"
+                               Foreground="{StaticResource TextSecondaryBrush}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- ══ ONGLETS ══ -->
+        <Border Grid.Row="1" Background="#0D1117" BorderBrush="#1E2640"
+                BorderThickness="0,0,0,1" Padding="30,0">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="BtnTabAjouter"  Content="➕  Ajouter une salle"
+                        Style="{StaticResource TabBtnActiveStyle}" Click="BtnTabAjouter_Click"/>
+                <Button x:Name="BtnTabSupprimer" Content="🗑  Supprimer une salle"
+                        Style="{StaticResource TabBtnStyle}"      Click="BtnTabSupprimer_Click"/>
+                <Button x:Name="BtnTabPlanning"  Content="📅  Planning"
+                        Style="{StaticResource TabBtnStyle}"      Click="BtnTabPlanning_Click"/>
+                <Button x:Name="BtnTabReservations" Content="📋  Réservations"
+                        Style="{StaticResource TabBtnStyle}"      Click="BtnTabReservations_Click"/>
+            </StackPanel>
+        </Border>
+
+        <!-- ══ CONTENU DES ONGLETS ══ -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <Grid Margin="40,30">
+
+                <!-- ─── ONGLET 1 : AJOUTER UNE SALLE ─── -->
+                <Border x:Name="PanelAjouter" Visibility="Visible">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Formulaire gauche -->
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Informations de la salle" FontFamily="{StaticResource AppFont}"
+                                       FontSize="16" FontWeight="Bold"
+                                       Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,20"/>
+
+                            <TextBlock Text="Nom de la salle" Style="{StaticResource FieldLabelStyle}"/>
+                            <TextBox x:Name="TxtNomSalle" Style="{StaticResource AdminInputStyle}" Margin="0,0,0,16"/>
+
+                            <TextBlock Text="Type de salle" Style="{StaticResource FieldLabelStyle}"/>
+                            <ComboBox x:Name="CmbTypeSalle" Margin="0,4,0,16" Height="42"
+Background="#F8F9FA" Foreground="Black"
+                                      FontFamily="{StaticResource AppFont}" FontSize="13"
+                                      BorderBrush="#ddd" BorderThickness="1">
+                                <ComboBoxItem Content="Salle de réunion"/>
+                                <ComboBoxItem Content="Salle de conférence"/>
+                                <ComboBoxItem Content="Amphithéâtre"/>
+                
+                            </ComboBox>
+
+                            <TextBlock Text="Capacité (personnes)" Style="{StaticResource FieldLabelStyle}"/>
+                            <TextBox x:Name="TxtCapacite" Style="{StaticResource AdminInputStyle}" Margin="0,0,0,16"/>
+
+                            <TextBlock Text="Description" Style="{StaticResource FieldLabelStyle}"/>
+                            <TextBox x:Name="TxtDescription" Style="{StaticResource AdminInputStyle}"
+                                     Height="80" TextWrapping="Wrap" AcceptsReturn="True"
+                                     VerticalContentAlignment="Top" Margin="0,0,0,16"/>
+
+                            <TextBlock Text="Image de la salle (chemin ou URL)" Style="{StaticResource FieldLabelStyle}"/>
+                            <Grid Margin="0,4,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="TxtImagePath" Style="{StaticResource AdminInputStyle}"
+                                         Grid.Column="0"/>
+                                <Button Grid.Column="2" Content="📁 Parcourir"
+                                        Style="{StaticResource TabBtnStyle}"
+                                        BorderBrush="#2A3558" BorderThickness="1"
+                                        Foreground="{StaticResource TextSecondaryBrush}"
+                                        Click="BtnParcourirImage_Click"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Formulaire droite : équipements -->
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Équipements disponibles" FontFamily="{StaticResource AppFont}"
+                                       FontSize="16" FontWeight="Bold"
+                                       Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,20"/>
+
+                            <!-- Ajouter un équipement -->
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="TxtNouvelEquipement" Style="{StaticResource AdminInputStyle}"
+                                         Grid.Column="0" Tag="Ex: Projecteur, Tableau blanc..."/>
+                                <Button Grid.Column="2" Content="+ Ajouter"
+                                        Style="{StaticResource SuccessButtonStyle}"
+                                        Click="BtnAjouterEquipement_Click"/>
+                            </Grid>
+
+                            <!-- Liste des équipements ajoutés -->
+                            <Border Background="#0D1117" BorderBrush="#1E2640"
+                                    BorderThickness="1" CornerRadius="10" MinHeight="180" Padding="8">
+                                <StackPanel>
+                                    <TextBlock Text="Liste des équipements ajoutés :"
+                                               FontFamily="{StaticResource AppFont}" FontSize="11"
+                                               Foreground="{StaticResource TextSecondaryBrush}" Margin="8,4,0,10"/>
+                                    <ItemsControl x:Name="ListEquipements">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="#1A2035" CornerRadius="6"
+                                                        Margin="4,3" Padding="10,8">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="▸ " Foreground="{StaticResource AccentBrush}"
+                                                                       FontSize="12" VerticalAlignment="Center"/>
+                                                            <TextBlock Text="{Binding}" FontFamily="{StaticResource AppFont}"
+                                                                       FontSize="13" Foreground="{StaticResource TextPrimaryBrush}"
+                                                                       VerticalAlignment="Center"/>
+                                                        </StackPanel>
+                                                        <Button Grid.Column="1" Content="✕"
+                                                                Background="Transparent" BorderThickness="0"
+                                                                Foreground="{StaticResource DangerBrush}"
+                                                                FontSize="11" Cursor="Hand" Padding="4,0"
+                                                                Tag="{Binding}"
+                                                                Click="BtnSupprimerEquipementListe_Click"/>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Aperçu image -->
+                            <TextBlock Text="Aperçu image" FontFamily="{StaticResource AppFont}"
+                                       FontSize="13" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextSecondaryBrush}" Margin="0,20,0,8"/>
+                            <Border Background="#0D1117" BorderBrush="#1E2640"
+                                    BorderThickness="1" CornerRadius="10" Height="130">
+                                <Image x:Name="ImgApercu" Stretch="UniformToFill" StretchDirection="DownOnly"/>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Bouton valider (visible seulement onglet ajouter) -->
+<Border x:Name="PanelBtnValider" Visibility="Visible"
+                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,20">
+                    <!-- Feedback message -->
+                    <StackPanel>
+                        <Border x:Name="FeedbackBorder" Visibility="Collapsed"
+                                CornerRadius="8" Padding="14,10" Margin="0,0,0,14">
+                            <TextBlock x:Name="TxtFeedback" FontFamily="{StaticResource AppFont}"
+                                       FontSize="13" TextWrapping="Wrap"/>
+                        </Border>
+                        <Button x:Name="BtnValiderAjout" Content="✔  Valider et enregistrer la salle"
+                                Style="{StaticResource PrimaryButtonStyle}"
+                                HorizontalAlignment="Right" Padding="28,14"
+                                Click="BtnValiderAjout_Click"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- ─── ONGLET 2 : SUPPRIMER UNE SALLE ─── -->
+                <Border x:Name="PanelSupprimer" Visibility="Collapsed">
+                    <StackPanel>
+                        <TextBlock Text="Supprimer une salle" FontFamily="{StaticResource AppFont}"
+                                   FontSize="16" FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,6"/>
+                        <TextBlock Text="La suppression efface également tous les équipements liés à la salle."
+                                   FontFamily="{StaticResource AppFont}" FontSize="12"
+                                   Foreground="{StaticResource DangerBrush}" Margin="0,0,0,24"/>
+
+                        <!-- En-tête tableau -->
+                        <Border Background="#1A2035" CornerRadius="10,10,0,0" Padding="16,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="ID"      Grid.Column="0" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Nom"     Grid.Column="1" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Type"    Grid.Column="2" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Capacité" Grid.Column="3" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Action"  Grid.Column="4" Style="{StaticResource TableHeaderStyle}" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <ItemsControl x:Name="ListSallesSupprimer">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource TableRowStyle}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="140"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="100"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Id}" Grid.Column="0" Style="{StaticResource TableCellStyle}" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                            <TextBlock Text="{Binding Nom}" Grid.Column="1" Style="{StaticResource TableCellStyle}" FontWeight="SemiBold"/>
+                                            <TextBlock Text="{Binding TypeSalle}" Grid.Column="2" Style="{StaticResource TableCellStyle}"/>
+                                            <TextBlock Text="{Binding Capacite}" Grid.Column="3" Style="{StaticResource TableCellStyle}"/>
+                                            <Button Grid.Column="4" Content="🗑 Supprimer"
+                                                    Style="{StaticResource DangerButtonStyle}"
+                                                    Tag="{Binding Id}"
+                                                    Click="BtnSupprimerSalle_Click"
+                                                    HorizontalAlignment="Center"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- ─── ONGLET 3 : PLANNING ─── -->
+                <Border x:Name="PanelPlanning" Visibility="Collapsed">
+                    <StackPanel>
+                        <TextBlock Text="Gestion du planning" FontFamily="{StaticResource AppFont}"
+                                   FontSize="16" FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,6"/>
+                        <TextBlock Text="Détectez et gérez les réservations en double ou conflictuelles."
+                                   FontFamily="{StaticResource AppFont}" FontSize="12"
+                                   Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,24"/>
+
+                        <!-- Filtre date -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                            <TextBlock Text="Filtrer par date :" FontFamily="{StaticResource AppFont}"
+                                       FontSize="13" Foreground="{StaticResource TextSecondaryBrush}"
+                                       VerticalAlignment="Center" Margin="0,0,12,0"/>
+                            <DatePicker x:Name="DpFiltreDate" FontFamily="{StaticResource AppFont}"
+Background="#F8F9FA" Foreground="Black"
+                                        BorderBrush="#ddd" BorderThickness="1"
+                                        SelectedDateChanged="DpFiltreDate_Changed"/>
+                            <Button Content="🔄 Tout afficher" Style="{StaticResource TabBtnStyle}"
+                                    BorderBrush="#2A3558" BorderThickness="1" Margin="12,0,0,0"
+                                    Click="BtnAfficherToutPlanning_Click"/>
+                        </StackPanel>
+
+                        <!-- Doublons détectés -->
+                        <Border Background="#2A0D0D" BorderBrush="{StaticResource DangerBrush}"
+                                BorderThickness="1" CornerRadius="8" Padding="14,10" Margin="0,0,0,20"
+                                x:Name="PanelDoublons" Visibility="Collapsed">
+                            <StackPanel>
+                                <TextBlock Text="⚠ Réservations en double détectées"
+                                           FontFamily="{StaticResource AppFont}" FontSize="13" FontWeight="Bold"
+                                           Foreground="{StaticResource DangerBrush}" Margin="0,0,0,8"/>
+                                <ItemsControl x:Name="ListDoublons">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="#3D0F0F" CornerRadius="6" Padding="10,8" Margin="0,3">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="{Binding Description}"
+                                                               FontFamily="{StaticResource AppFont}" FontSize="12"
+                                                               Foreground="{StaticResource DangerBrush}" VerticalAlignment="Center"/>
+                                                    <Button Grid.Column="1" Content="Annuler doublon"
+                                                            Style="{StaticResource DangerButtonStyle}"
+                                                            Tag="{Binding Id}"
+                                                            Click="BtnAnnulerDoublon_Click"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Tableau planning -->
+                        <Border Background="#1A2035" CornerRadius="10,10,0,0" Padding="16,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="ID"        Grid.Column="0" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Salle"     Grid.Column="1" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Utilisateur" Grid.Column="2" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Date"      Grid.Column="3" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Créneau"   Grid.Column="4" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Statut"    Grid.Column="5" Style="{StaticResource TableHeaderStyle}"/>
+                            </Grid>
+                        </Border>
+                        <ItemsControl x:Name="ListPlanningReservations">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource TableRowStyle}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="60"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="100"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Id}"          Grid.Column="0" Style="{StaticResource TableCellStyle}" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                            <TextBlock Text="{Binding SalleNom}"    Grid.Column="1" Style="{StaticResource TableCellStyle}" FontWeight="SemiBold"/>
+                                            <TextBlock Text="{Binding UserNom}"     Grid.Column="2" Style="{StaticResource TableCellStyle}"/>
+                                            <TextBlock Text="{Binding DateAffichee}" Grid.Column="3" Style="{StaticResource TableCellStyle}"/>
+                                            <TextBlock Text="{Binding Creneau}"     Grid.Column="4" Style="{StaticResource TableCellStyle}"/>
+                                            <Border Grid.Column="5" CornerRadius="4" Padding="6,3"
+                                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                    Background="{Binding StatutBackground}">
+                                                <TextBlock Text="{Binding Statut}" FontFamily="{StaticResource AppFont}"
+                                                           FontSize="11" FontWeight="SemiBold"
+                                                           Foreground="{Binding StatutForeground}"/>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- ─── ONGLET 4 : RÉSERVATIONS ─── -->
+                <Border x:Name="PanelReservations" Visibility="Collapsed">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="Toutes les réservations" FontFamily="{StaticResource AppFont}"
+                                           FontSize="16" FontWeight="Bold"
+                                           Foreground="{StaticResource TextPrimaryBrush}"/>
+                                <TextBlock x:Name="TxtNbReservations" FontFamily="{StaticResource AppFont}"
+                                           FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <TextBox x:Name="TxtRechercheRes" Style="{StaticResource AdminInputStyle}"
+                                         Width="220" Tag="Rechercher..."
+                                         TextChanged="TxtRechercheRes_Changed"/>
+                                <ComboBox x:Name="CmbFiltreStatut" Width="140" Margin="12,0,0,0"
+Background="#F8F9FA" Foreground="Black"
+                                          FontFamily="{StaticResource AppFont}" FontSize="13"
+                                          BorderBrush="#ddd" BorderThickness="1" Height="42"
+                                          SelectionChanged="CmbFiltreStatut_Changed">
+                                    <ComboBoxItem Content="Tous les statuts" IsSelected="True"/>
+                                    <ComboBoxItem Content="Confirmée"/>
+                                    <ComboBoxItem Content="Annulee"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- En-tête tableau -->
+                        <Border Background="#1A2035" CornerRadius="10,10,0,0" Padding="16,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="110"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="ID"          Grid.Column="0" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Salle"       Grid.Column="1" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Utilisateur" Grid.Column="2" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Date"        Grid.Column="3" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Créneau"     Grid.Column="4" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Statut"      Grid.Column="5" Style="{StaticResource TableHeaderStyle}"/>
+                                <TextBlock Text="Action"      Grid.Column="6" Style="{StaticResource TableHeaderStyle}" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <ItemsControl x:Name="ListToutesReservations">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource TableRowStyle}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="110"/>
+                                                <ColumnDefinition Width="110"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="110"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Id}"          Grid.Column="0" Style="{StaticResource TableCellStyle}" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                            <TextBlock Text="{Binding SalleNom}"    Grid.Column="1" Style="{StaticResource TableCellStyle}" FontWeight="SemiBold"/>
+                                            <TextBlock Text="{Binding UserNom}"     Grid.Column="2" Style="{StaticResource TableCellStyle}"/>
+                                            <TextBlock Text="{Binding DateAffichee}" Grid.Column="3" Style="{StaticResource TableCellStyle}"/>
+                                            <TextBlock Text="{Binding Creneau}"     Grid.Column="4" Style="{StaticResource TableCellStyle}"/>
+                                            <Border Grid.Column="5" CornerRadius="4" Padding="6,3"
+                                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                    Background="{Binding StatutBackground}">
+                                                <TextBlock Text="{Binding Statut}" FontFamily="{StaticResource AppFont}"
+                                                           FontSize="11" FontWeight="SemiBold"
+                                                           Foreground="{Binding StatutForeground}"/>
+                                            </Border>
+                                            <Button Grid.Column="6" Content="Annuler"
+                                                    Style="{StaticResource DangerButtonStyle}"
+                                                    HorizontalAlignment="Center"
+                                                    Tag="{Binding Id}"
+                                                    IsEnabled="{Binding EstConfirmee}"
+                                                    Click="BtnAnnulerReservation_Click"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

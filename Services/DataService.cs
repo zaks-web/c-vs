@@ -243,5 +243,72 @@ namespace GantsPlace.Services
 
             return equipements;
         }
+
+                // Ajouter une salle → retourne l'id généré
+        public static int AjouterSalle(string nom, string type, int capacite, string description, string image)
+        {
+            using var conn = new SqliteConnection(connectionString);
+            conn.Open();
+            string q = "INSERT INTO Salle(nom_salle,type_salle,capacite_salle,description,image) VALUES(@n,@t,@c,@d,@i); SELECT last_insert_rowid();";
+            using var cmd = new SqliteCommand(q, conn);
+            cmd.Parameters.AddWithValue("@n", nom);
+            cmd.Parameters.AddWithValue("@t", type);
+            cmd.Parameters.AddWithValue("@c", capacite);
+            cmd.Parameters.AddWithValue("@d", description);
+            cmd.Parameters.AddWithValue("@i", image);
+            return Convert.ToInt32(cmd.ExecuteScalar());
+        }
+
+        // Ajouter un équipement à une salle
+        public static void AjouterEquipement(int salleId, string nomEquipement)
+        {
+            using var conn = new SqliteConnection(connectionString);
+            conn.Open();
+            string q = "INSERT INTO Equipement(id_salle, nom_equipement) VALUES(@s, @n)";
+            using var cmd = new SqliteCommand(q, conn);
+            cmd.Parameters.AddWithValue("@s", salleId);
+            cmd.Parameters.AddWithValue("@n", nomEquipement);
+            cmd.ExecuteNonQuery();
+        }
+
+        // Supprimer une salle et ses équipements
+        public static void SupprimerSalle(int salleId)
+        {
+            using var conn = new SqliteConnection(connectionString);
+            conn.Open();
+            using var cmd1 = new SqliteCommand("DELETE FROM Equipement WHERE id_salle=@id", conn);
+            cmd1.Parameters.AddWithValue("@id", salleId);
+            cmd1.ExecuteNonQuery();
+            using var cmd2 = new SqliteCommand("DELETE FROM Salle WHERE id_salle=@id", conn);
+            cmd2.Parameters.AddWithValue("@id", salleId);
+            cmd2.ExecuteNonQuery();
+        }
+
+        // Toutes les réservations (tous utilisateurs)
+        public static List<Reservation> GetToutesReservations()
+        {
+            var list = new List<Reservation>();
+            using var conn = new SqliteConnection(connectionString);
+            conn.Open();
+            string q = @"SELECT r.id_reservation,r.id_salle,r.nom_salle,r.jour,r.statut,
+                                c.heure_debut,c.heure_fin,s.type_salle,u.nom_user,u.email
+                        FROM Reservation r
+                        JOIN Creneau c ON r.id_creneau=c.id_creneau
+                        JOIN Salle s ON r.id_salle=s.id_salle
+                        JOIN User u ON r.id_user=u.id_user
+                        ORDER BY r.jour DESC";
+            using var cmd = new SqliteCommand(q, conn);
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+                list.Add(new Reservation {
+                    Id = reader.GetInt32(0), SalleId = reader.GetInt32(1),
+                    SalleNom = reader.GetString(2), Date = DateTime.Parse(reader.GetString(3)),
+                    Statut = reader.GetString(4), HeureDebut = TimeSpan.Parse(reader.GetString(5)),
+                    HeureFin = TimeSpan.Parse(reader.GetString(6)), TypeSalle = reader.GetString(7),
+                    UserNom = reader.GetString(8), UserEmail = reader.GetString(9)
+                });
+            return list;
+            }
     }
+    
 }

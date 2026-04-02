@@ -42,6 +42,7 @@ namespace GantsPlace
                 "Contact"     => new ContactPage(this),
                 "Login"       => new LoginPage(this),
                 "Inscription" => new InscriptionPage(this),
+                "Admin"       => new AdminPage(this),
                 "DetailSalle" => param is Salle s ? new DetailSallePage(this, s) : null,
                 _ => null
             };
@@ -65,6 +66,7 @@ namespace GantsPlace
             BtnExplorer.Style   = activePage == "Explorer"   ? (Style)FindResource("NavButtonActiveStyle") : (Style)FindResource("NavButtonStyle");
             BtnHistorique.Style = activePage == "Historique" ? (Style)FindResource("NavButtonActiveStyle") : (Style)FindResource("NavButtonStyle");
             BtnContact.Style    = activePage == "Contact"    ? (Style)FindResource("NavButtonActiveStyle") : (Style)FindResource("NavButtonStyle");
+            BtnAdmin.Style      = activePage == "Admin"      ? (Style)FindResource("NavButtonActiveStyle") : (Style)FindResource("NavButtonStyle");
         }
 
         public void UpdateAuthUI()
@@ -74,11 +76,18 @@ namespace GantsPlace
                 TxtUserName.Text        = Session.UtilisateurConnecte?.NomComplet ?? "";
                 PanelAuth.Visibility    = Visibility.Collapsed;
                 PanelUser.Visibility    = Visibility.Visible;
+                
+                // Admin button only for gestionnaire
+                if (Session.UtilisateurConnecte.Email == "gestion@gmail.com")
+                    BtnAdmin.Visibility = Visibility.Visible;
+                else
+                    BtnAdmin.Visibility = Visibility.Collapsed;
             }
             else
             {
                 PanelAuth.Visibility = Visibility.Visible;
                 PanelUser.Visibility = Visibility.Collapsed;
+                BtnAdmin.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -89,6 +98,7 @@ namespace GantsPlace
         private void BtnAccueil_Click(object sender, RoutedEventArgs e)    { NavigateTo("Accueil");    UpdateNavButtons("Accueil");    }
         private void BtnExplorer_Click(object sender, RoutedEventArgs e)   { NavigateTo("Explorer");   UpdateNavButtons("Explorer");   }
         private void BtnHistorique_Click(object sender, RoutedEventArgs e) { NavigateTo("Historique"); UpdateNavButtons("Historique"); }
+        private void BtnAdmin_Click(object sender, RoutedEventArgs e)     { NavigateTo("Admin");      UpdateNavButtons("Admin");      }
         private void BtnContact_Click(object sender, RoutedEventArgs e)    { NavigateTo("Contact");    UpdateNavButtons("Contact");    }
         private void BtnConnexion_Click(object sender, RoutedEventArgs e)   { NavigateTo("Login");      UpdateNavButtons("");           }
         private void BtnInscription_Click(object sender, RoutedEventArgs e) { NavigateTo("Inscription");UpdateNavButtons("");           }

@@ -18,6 +18,8 @@
     <Color x:Key="BorderColor">#252D45</Color>
     <Color x:Key="BorderHover">#3A4560</Color>
     <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="ComboBg">#F8F9FA</Color>
+    <Color x:Key="ComboText">Black</Color>
 
     <SolidColorBrush x:Key="BgDeepBrush"         Color="{StaticResource BgDeep}"/>
     <SolidColorBrush x:Key="BgPrimaryBrush"       Color="{StaticResource BgPrimary}"/>
@@ -35,6 +37,8 @@
     <SolidColorBrush x:Key="TextMutedBrush"       Color="{StaticResource TextMuted}"/>
     <SolidColorBrush x:Key="BorderBrush_"         Color="{StaticResource BorderColor}"/>
     <SolidColorBrush x:Key="WhiteBrush"           Color="{StaticResource White}"/>
+    <SolidColorBrush x:Key="ComboBgBrush" Color="{StaticResource ComboBg}"/>
+    <SolidColorBrush x:Key="ComboTextBrush" Color="{StaticResource ComboText}"/>
 
     <!-- Compatibilité anciens noms -->
     <SolidColorBrush x:Key="PrimaryDarkBrush"     Color="{StaticResource BgNavbar}"/>
@@ -303,10 +307,10 @@
         </Setter>
     </Style>
 
-    <!-- SCROLLBAR -->
+    <!-- SCROLLBAR - BLACK THUMB -->
     <Style TargetType="ScrollBar">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Width" Value="6"/>
+        <Setter Property="Width" Value="8"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollBar">
@@ -319,7 +323,7 @@
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="Thumb">
-                                                        <Border Background="#2A3550" CornerRadius="3" Margin="1"/>
+                                                        <Border Background="Black" CornerRadius="3" Margin="1"/>
                                                     </ControlTemplate>
                                                 </Setter.Value>
                                             </Setter>
@@ -334,15 +338,42 @@
         </Setter>
     </Style>
 
-    <!-- COMBOBOX -->
+    <!-- COMBOBOX - UNIFORM BLACK TEXT / LIGHT BG -->
     <Style x:Key="ModernComboBoxStyle" TargetType="ComboBox">
-        <Setter Property="Background" Value="#1C2030"/>
-        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="Background" Value="{StaticResource ComboBgBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ComboTextBrush}"/>
         <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Padding" Value="12,10"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush_}"/>
+    </Style>
+
+    <!-- COMBOBOX OPTIONS - BLACK TEXT, SAME STYLE -->
+    <Style TargetType="ComboBoxItem">
+        <Setter Property="Foreground" Value="{StaticResource ComboTextBrush}"/>
+        <Setter Property="Background" Value="{StaticResource ComboBgBrush}"/>
+        <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border x:Name="Border" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#E8ECEF"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource AccentBrush}"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!-- BADGES STATUT -->
@@ -369,5 +400,27 @@
         <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Padding" Value="8,4"/>
     </Style>
+
+
+    <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
+    <Setter Property="FontSize" Value="12"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+    <Setter Property="Margin" Value="0,0,0,6"/>
+</Style>
+<Style x:Key="TableHeaderStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
+    <Setter Property="FontSize" Value="11"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+</Style>
+<Style x:Key="TableCellStyle" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
+    <Setter Property="FontSize" Value="13"/>
+    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+</Style>
 
 </ResourceDictionary>

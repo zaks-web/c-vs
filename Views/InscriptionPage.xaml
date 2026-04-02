@@ -12,13 +12,14 @@
             </Border.Background>
             <Border.Effect><DropShadowEffect ShadowDepth="0" BlurRadius="40" Opacity="0.4" Color="#000000"/></Border.Effect>
             <StackPanel Margin="40">
-                <Border Background="{StaticResource SuccessBrush}" CornerRadius="12" Width="52" Height="52" HorizontalAlignment="Center" Margin="0,0,0,20">
-                    <Border.Effect><DropShadowEffect Color="#2ECC71" ShadowDepth="0" BlurRadius="20" Opacity="0.5"/></Border.Effect>
-                    <TextBlock Text="✨" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
+                 <Image Source="/Images/logo.png" Width="100" Height="100" Stretch="Uniform">
+                                <Image.Effect>
+                                    <DropShadowEffect Color="#4F8EF7" ShadowDepth="0" BlurRadius="30" Opacity="0.6"/>
+                                </Image.Effect>
+                            </Image>
                 <TextBlock Text="Créer un compte" FontFamily="{StaticResource AppFont}" FontSize="26" FontWeight="Bold"
                            Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,6"/>
-                <TextBlock Text="Rejoignez Gands Place et réservez vos salles"
+                <TextBlock Text="Rejoignez GANDS RESERVATION et réservez vos salles"
                            FontFamily="{StaticResource AppFont}" FontSize="13"
                            Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,28"/>
 

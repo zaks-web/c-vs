@@ -18,12 +18,19 @@ namespace GantsPlace.Views
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(mdp))
             { ShowError("Veuillez remplir tous les champs."); return; }
 
-            if (DataService.Authentifier(email, mdp))
+            try
             {
-                _main.UpdateAuthUI();
-                _main.ShowMainApp();
+                if (DataService.Authentifier(email, mdp))
+                {
+                    _main.UpdateAuthUI();
+                    _main.ShowMainApp();
+                }
+                else ShowError("Email ou mot de passe incorrect.");
             }
-            else ShowError("Email ou mot de passe incorrect.");
+            catch (Exception ex)
+            {
+                ShowError($"Erreur : {ex.Message}");
+            }
         }
 
         private void BtnVersInscription_Click(object sender, RoutedEventArgs e)

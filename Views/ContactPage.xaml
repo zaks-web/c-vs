@@ -161,7 +161,7 @@
                                    Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6"/>
                         <Border Background="#1C2030" CornerRadius="8" BorderBrush="{StaticResource BorderBrush_}"
                                 BorderThickness="1" Margin="0,0,0,16" Padding="4,2">
-                            <ComboBox x:Name="CmbSujet" Background="Transparent" Foreground="{StaticResource TextPrimaryBrush}"
+    <ComboBox x:Name="CmbSujet" Background="#F8F9FA" Foreground="Black"
                                       FontFamily="{StaticResource AppFont}" FontSize="13" BorderThickness="0">
                                 <ComboBoxItem Content="Réservation" IsSelected="True"/>
                                 <ComboBoxItem Content="Information générale"/>

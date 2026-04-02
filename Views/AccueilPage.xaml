@@ -67,7 +67,7 @@
                                 <Border Background="#F8F9FF" CornerRadius="8" Padding="4,4">
                                     <ComboBox x:Name="CmbType" FontFamily="{StaticResource AppFont}"
                                               FontSize="13" BorderThickness="0" Background="Transparent"
-                                              Foreground="#333333">
+Foreground="Black">
                                         <ComboBoxItem Content="Tous les types" IsSelected="True"/>
                                         <ComboBoxItem Content="Salle de réunion"/>
                                         <ComboBoxItem Content="Salle de cours"/>
